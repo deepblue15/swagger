@@ -1,0 +1,358 @@
+openapi: 3.0.0
+info:
+  description: Change Management API for Remedy Force
+  version: 1.0.0
+  title: Change Management API for Remedy Force
+  contact:
+    email: rbotla@changehealthcare.com
+tags:
+  - name: changerequest
+    description: Create Change request
+paths:
+  /changerequest:
+    post:
+      tags:
+        - changerequest
+      summary: Create a new CR in Remedy Force
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeRequest"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/ChangeRequest"
+        description: Request Body with Change Request details
+        required: true
+      responses:
+        "200":
+          description: "CR created with ID: "
+servers:
+  - url: https://api-dev-internal.apip.awsnonprod.healthcareit.net/v1
+  - url: http://api-dev-internal.apip.awsnonprod.healthcareit.net/v1
+components:
+  schemas:
+    ChangeRequest:
+      type: object
+      properties:
+        change_initiator:
+          type: string
+        initiator_same_as_implementor:
+          type: string
+          enum:
+            - Yes
+            - No
+        change_type:
+          type: string
+          enum:
+            - Non-Standard
+            - Standard
+            - Emergency
+        configuration_item_or_application:
+          type: string
+        change_category:
+          type: string
+        change_driver:
+          type: string
+        change_part_of_a_project:
+          type: string
+          enum:
+            - Yes
+            - No
+        change_title:
+          type: string
+        non_remedy_original_ticket_details:
+          type: string
+        non_technical_reason_for_change:
+          type: string
+        related_change_requests:
+          type: string
+        standard_cr_template:
+          type: string
+        do_we_need_a_webex:
+          type: string
+          enum:
+            - Yes
+            - No
+        why_is_webex_not_required:
+          type: string
+        webex_bridge_information:
+          type: string
+        number_of_users_affected:
+          type: string
+          enum:
+            - External - None
+            - External - Single
+            - External - Some
+            - External - Global
+            - Internal - None
+            - Internal - Single
+            - Internal - Some
+            - Internal - Global
+            - Global - Internal & External
+        worst_case_if_not_implemented:
+          type: string
+        end_user_exp_if_change_fails:
+          type: string
+        source_code_id:
+          type: string
+        template_service_request_number:
+          type: string
+        business_justification_for_change_freeze:
+          type: string
+        urgency_of_change:
+          type: string
+          enum:
+            - VERY LOW
+            - LOW
+            - MEDIUM
+            - HIGH
+        scheduled_start_date_time_for_impl:
+          type: string
+          format: date-time
+        maintenance_window:
+          type: string
+        estimated_duration_for_impl:
+          type: string
+          description: In hours
+        estimated_duration_for_post_impl_tests:
+          type: string
+          description: In hours
+        estimated_duration_for_backing_out:
+          type: string
+          description: In hours
+        scheduled_end_date_time_for_impl:
+          type: string
+          format: date-time
+        estimated_duration_for_requestor_sign_off:
+          type: string
+          description: In hours
+        step_by_step_implementation_plan:
+          type: string
+        step_by_step_backout_plan:
+          type: string
+        communication_plan_sent_to_end_users:
+          type: string
+        step_by_step_post_testing_plan:
+          type: string
+        post_backout_testing:
+          type: string
+        risk_assessment:
+          $ref: "#/components/schemas/RiskAssessment"
+        infosec_questionnaire:
+          $ref: "#/components/schemas/InfosecQuestionnaire"
+      required:
+        - change_initiator
+        - initiator_same_as_implementor
+        - configuration_item_or_application
+    RiskAssessment:
+      type: object
+      properties:
+        potential_business_ops_impact:
+          type: string
+          enum:
+            - Internal Impact During Business Hours
+            - Internal Impact During Non-Business Hours
+            - External Impact During Business Hours
+            - External Impact During Non-Business Hours
+            - Internal and External Impact Business Hours
+            - Internal and External Impact Non-Business Hours
+        impact_to_end_user_tools:
+          type: string
+          enum:
+            - No impact
+            - Low tool impact
+            - Medium tool impact
+            - High tool impact
+            - Very High impact
+        flexibility_to_cr_schedule:
+          type: string
+          enum:
+            - Not flexible
+            - Time has been added to Implementation Plan
+            - Time has been added to Post Testing Plan
+            - Time has been added to Back Out Plan
+            - Time has been added to All Plans
+        number_of_devices_affected:
+          type: string
+          enum:
+            - Number of Devices affected 0 to 10
+            - Number of Devices affected 11 to 20
+            - Number of Devices affected 21 to 30
+            - Number of Devices affected Greater than 30
+        number_of_applications_affected:
+          type: string
+          enum:
+            - Number of Applications affected 0 to 10
+            - Number of Applications affected 11 to 20
+            - Number of Applications affected 21 to 30
+            - Number of Applications affected Greater than 30
+        number_of_services_affected:
+          type: string
+          enum:
+            - Number of Services affected 0 to 10
+            - Number of Services affected 11 to 20
+            - Number of Services affected 21 to 30
+            - Number of Services affected Greater than 30
+        previous_experience_with_change:
+          type: string
+          enum:
+            - Less than one year
+            - Less than three years
+            - More than three years
+        confidence_level_of_testing:
+          type: string
+          enum:
+            - Unknown - not known if tested or no testing environment
+            - Tested and test results documented
+            - Tested and results not documented
+            - Not test and not documented
+        how_easy_to_back_out:
+          type: string
+          enum:
+            - Cannot be backed out
+            - Backout plan is very complex
+            - Backout plan is complex
+            - Backout plan is not complex
+            - Restart/Reboot
+        has_security_indicators:
+          type: string
+          enum:
+            - Yes
+            - No
+        change_to_firewall_ids_ips:
+          type: string
+          enum:
+            - Change affects Firewall, IDS, or IPS
+            - Change does not affect Firewall, IDS, or IPS
+        environment_has_redundancy:
+          type: string
+          enum:
+            - Yes
+            - No
+        change_provides_new_access:
+          type: string
+          enum:
+            - Yes
+            - No
+        change_impacts_or_conflicts_with_other_crs:
+          type: string
+          enum:
+            - This change does not conflict with other change schedules
+            - This change does conflict with other change schedules
+            - This change is not related to other change schedules
+            - This change is related to other change schedules
+        end_user_experience_during_change:
+          type: string
+          enum:
+            - No impact - transparent to end user
+            - Brief outage (15 min or less)
+            - Partial outage or without a workaround
+            - Complete outage
+    InfosecQuestionnaire:
+      type: object
+      properties:
+        risk_of_this_change:
+          type: string
+        is_change_for_externally_facing_system:
+          type: string
+          enum:
+            - Yes
+            - No
+        is_change_for_internal_processes_systems:
+          type: string
+        data_transmitted_over_public_network:
+          type: string
+          enum:
+            - Yes
+            - No
+        qualifiers_for_handled_data:
+          type: string
+          enum:
+            - FISMA
+            - PCI
+            - SOC2
+            - PHI or PII
+            - HITRUST
+        regulated_data_being_printed:
+          type: string
+          enum:
+            - Yes
+            - No
+        data_flow_being_updated:
+          type: string
+          enum:
+            - Yes
+            - No
+        ports_protocols_services:
+          type: string
+        external_vendors_process_data:
+          type: string
+          enum:
+            - Yes
+            - No
+        which_vendor_and_where:
+          type: string
+        data_processed_offshore:
+          type: string
+          enum:
+            - Yes
+            - No
+        cloud_environment_involved:
+          type: string
+          enum:
+            - Yes
+            - No
+        details_of_cloud_environment:
+          type: string
+        vendors_need_access_to_regulated_data:
+          type: string
+          enum:
+            - Yes
+            - No
+        new_functionality_being_introduced:
+          type: string
+          enum:
+            - Yes
+            - No
+        changes_to_existing_documentation_required:
+          type: string
+          enum:
+            - Yes
+            - No
+        vulnerability_assessment_tool_in_use:
+          type: string
+          enum:
+            - Yes
+            - No
+            - Unknown
+        logs_being sent_to_qradar:
+          type: string
+          enum:
+            - Yes
+            - No
+            - Unknown
+        proprietary_code_being_used_reviewed:
+          type: string
+          enum:
+            - Yes
+            - No
+            - Unknown
+        code_reviewed_for_security_and_or_owasptop10:
+          type: string
+          enum:
+            - Yes
+            - No
+            - Unknown
+        is_database_change:
+          type: string
+          enum:
+            - Yes
+            - No
+        describe_database_change_and_effects:
+          type: string
+        data_being_encrypted_at_rest_or_motion:
+          type: string
+          enum:
+            - Yes
+            - No
