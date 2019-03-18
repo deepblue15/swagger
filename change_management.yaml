@@ -5,7 +5,7 @@ info:
   title: "Change Management API for Remedy Force"
   contact: 
     email: "rbotla@changehealthcare.com"
-host: "TBD"
+host: "amazonaws.com"
 basePath: "/v1"
 tags:
   - name: "changerequest"
